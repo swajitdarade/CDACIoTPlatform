@@ -5,11 +5,9 @@ const SensorTypeSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        unique:true
     },
     version: {
         type: Number,
-        required: true,
         default: 0.0
     },
     fields: {
@@ -33,6 +31,8 @@ const SensorTypeSchema = mongoose.Schema({
         default:false
     }
 });
+
+SensorTypeSchema.index({ type: 1, version: 1 }, { unique: true });
 
 // Naming and exporting  the user mongoose model
 const SensorType = module.exports = mongoose.model('SensorType', SensorTypeSchema);

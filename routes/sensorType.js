@@ -93,33 +93,4 @@ router.post('/createSensorType', function(req, res) {
 });
 
 
-
-/*
-//get sensorType
-
-router.get("/getSensorType", (req, res) => {
-  SensorType.getSensorType((err, data) => {
-    if (err)
-        res.json({
-            success: false,
-            msg: err
-        });
-    else {
-      var rslt = {}
-      data.forEach(e => {
-        if (e.type in rslt){
-        }
-        else {
-          
-        }
-      });
-      res.json({
-        success: true,
-        msg: rslt
-      });
-    } 
-})
-});
-*/
-
 module.exports = router;

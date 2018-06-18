@@ -8,20 +8,21 @@ const SensorTypeSchema = mongoose.Schema({
     },
     version: {
         type: Number,
-        default: 0.0
+        default: "v0.0"
     },
-    fields: {
-        type: Array,
-        default: []
-    },
-    actions: {
-        type: Array,
-        default: []
-    },
-    events: {
-        type: Array,
-        default: []
-    },
+    fields: [new mongoose.Schema({fields:{type:String,required:true},
+                                 title:{type:String,required:true},
+                                 type:{type:String,enum:["integer","string","boolean"],required:true},
+                                 default:{type:String,required:true},
+                                 required:{type:boolean,default:false}})  
+    ],
+    actions: [new mongoose.Schema({type:{type:String,required:true},
+                                   fields:[{type:String}]
+                                })
+    ],
+    events: [new mongoose.Schema({type:{type:String,required:true},
+                                   fields:[{type:String}] })
+    ],
     date: {
         type: Number,
         default: new Date()
@@ -43,4 +44,7 @@ module.exports.getAllSensorType = function (callback) {
 
 module.exports.addSensorType = function (Sensortype, callback) {
     SensorType.create(Sensortype, callback);
+};
+module.exports.getSensorType = function (callback) {
+    SensorType.find(callback);
 };

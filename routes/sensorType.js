@@ -39,8 +39,7 @@ router.get("/getAll", (req, res) => {
           success: true,
           msg: rslt
         });
-      }
-          
+      } 
   })
 });
 
@@ -92,5 +91,6 @@ router.post('/createSensorType', function(req, res) {
   }
   
 });
+
 
 module.exports = router;

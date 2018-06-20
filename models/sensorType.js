@@ -37,7 +37,7 @@ const SensorTypeSchema = mongoose.Schema({
                     required: true
                 },
                 required: {
-                    type: boolean,
+                    type: Boolean,
                     default: false
                 }
             })],
@@ -93,6 +93,7 @@ module.exports.addSensorType = function (Sensortype, callback) {
 module.exports.findSensorByID = function(sensorID,callback){
     SensorType.findById(sensorID,callback)
 };
+
 module.exports.updateSensorByID = function(sensorDetails,callback){
     let query = {
         version:sensorDetails.version,
@@ -103,6 +104,10 @@ module.exports.updateSensorByID = function(sensorDetails,callback){
     }
     SensorType.findByIdAndUpdate(sensorDetails.ID,query,callback);
 }
+
+module.exports.getBySensorType = function (Sensortype,callback) {
+    SensorType.find({'type':Sensortype},callback);
+};
 
 module.exports.getSensorType = function (callback) {
     SensorType.find(callback);

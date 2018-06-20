@@ -20,7 +20,6 @@ router.get("/", (req, res) => {
 
 router.get("/getAll", (req, res) => {
   SensorType.getAllSensorType((err, data) => {
-
     if (err)
       res.json({
         success: false,
@@ -31,8 +30,7 @@ router.get("/getAll", (req, res) => {
       data.forEach(e => {
         if (e.type in rslt) {
           rslt[e.type].push(e.version)
-        }
-        else {
+        } else {
           rslt[e.type] = [e.version]
         }
       });
@@ -45,6 +43,52 @@ router.get("/getAll", (req, res) => {
   })
 });
 
+router.post('/createSensorType', function (req, res) {
+  if (!req.body.type || !req.body.fields || !req.body.actions || !req.body.events) {
+    res.json({
+      success: false,
+      msg: 'Insuficient data'
+    });
+  } else if (req.body.fields.length == 0) {
+    res.json({
+      success: false,
+      msg: 'Fields should have atleast one value'
+    });
+  } else if (req.body.actions.length == 0) {
+    res.json({
+      success: false,
+      msg: 'Actions should have atleast one value'
+    });
+  } else if (req.body.events.length == 0) {
+    res.json({
+      success: false,
+      msg: 'Events should have atleast one value'
+    });
+  } else {
+    let STData = {
+      type: req.body.type,
+      latestversion: "v0.0",
+      versions: [{
+        version: "v0.0",
+        fields: req.body.fields,
+        events: req.body.events,
+        actions: req.body.actions,
+      }]
+    }
+    SensorType.addSensorType(STData, (err, resp) => {
+      if (err)
+        res.json({
+          success: false,
+          msg: err
+        });
+      else
+        res.json({
+          success: true,
+          msg: 'Sensortype added successfully'
+        });
+    });
+  } 
+});
 
 router.post('/updateSensorType', (req, res) => {
   if (!req.body._id || !req.body.versionType) {
@@ -52,16 +96,14 @@ router.post('/updateSensorType', (req, res) => {
       success: false,
       msg: 'Insuficient data'
     });
-  }
-  else {
+  } else {
     SensorType.findSensorByID(req.body._id, (err, reqSensor) => {
       if (err) {
         res.json({
           success: false,
           msg: err
         });
-      }
-      else {
+      } else {
         if (req.body.versionType == 'major') {
           let STData = {
             ID: reqSensor._id,
@@ -77,16 +119,14 @@ router.post('/updateSensorType', (req, res) => {
                 success: false,
                 msg: err
               });
-            }
-            else {
+            } else {
               res.json({
                 success: true,
                 msg: 'details sucessfully updated'
               });
             }
           })
-        }
-        else if (req.body.versionType == 'minor') {
+        } else if (req.body.versionType == 'minor') {
           let STData = {
             ID: reqSensor._id,
             version: reqSensor.version + 0.1,
@@ -101,8 +141,7 @@ router.post('/updateSensorType', (req, res) => {
                 success: false,
                 msg: err
               });
-            }
-            else {
+            } else {
               res.json({
                 success: true,
                 msg: 'details sucessfully updated'
@@ -114,22 +153,21 @@ router.post('/updateSensorType', (req, res) => {
     });
   }
 });
+
 router.post('/isdepricated', (req, res) => {
   if (!req.body._id || !req.body.depStatus) {
     res.json({
       success: false,
       msg: "Insufficient data"
     });
-  }
-  else {
+  } else {
     SensorType.findSensorByID(req.body._id, (err, reqSensor) => {
       if (err) {
         res.json({
           success: false,
           msg: err
         });
-      }
-      else {
+      } else {
         let STData = {
           ID: reqSensor._id,
           fields: reqSensor.fields,
@@ -143,8 +181,7 @@ router.post('/isdepricated', (req, res) => {
               success: false,
               msg: err
             });
-          }
-          else {
+          } else {
             res.json({
               success: true,
               msg: 'Deprication status sucessfully depricated'

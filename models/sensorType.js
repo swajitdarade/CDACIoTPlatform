@@ -5,34 +5,73 @@ const SensorTypeSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
+        unique:true
     },
-    version: {
+    latestversion: {
         type: Number,
-        default: 0.0
     },
-    fields: {
-        type: Array,
-        default: []
-    },
-    actions: {
-        type: Array,
-        default: []
-    },
-    events: {
-        type: Array,
-        default: []
-    },
-    date: {
-        type: Number,
-        default: new Date()
-    },
-    deprecated: {
-        type: Boolean,
-        default:false
-    }
+    versions: [
+        new mongoose.Schema({
+            fields: [new mongoose.Schema({
+                field: {
+                    type: String,
+                    required: true
+                },
+                title: {
+                    type: String,
+                    required: true
+                },
+                type: {
+                    type: String,
+                    enum: ["integer", "string", "boolean"],
+                    required: true
+                },
+                default: {
+                    type: String,
+                    required: true
+                },
+                required: {
+                    type: boolean,
+                    default: false
+                }
+            })],
+            actions: [new mongoose.Schema({
+                type: {
+                    type: String,
+                    required: true
+                },
+                fields: [{
+                    type: String
+                }]
+            })],
+            events: [new mongoose.Schema({
+                type: {
+                    type: String,
+                    required: true
+                },
+                fields: [{
+                    type: String
+                }]
+            })],
+            date: {
+                type: Number,
+                default: new Date()
+            },
+            deprecated: {
+                type: Boolean,
+                default: false
+            }
+        })
+    ]
+
 });
 
-SensorTypeSchema.index({ type: 1, version: 1 }, { unique: true });
+// SensorTypeSchema.index({
+//     type: 1,
+//     version: 1
+// }, {
+//     unique: true
+// });
 
 // Naming and exporting  the user mongoose model
 const SensorType = module.exports = mongoose.model('SensorType', SensorTypeSchema);
@@ -44,6 +83,7 @@ module.exports.getAllSensorType = function (callback) {
 module.exports.addSensorType = function (Sensortype, callback) {
     SensorType.create(Sensortype, callback);
 };
+
 module.exports.findSensorByID = function(sensorID,callback){
     SensorType.findById(sensorID,callback)
 };
@@ -57,3 +97,8 @@ module.exports.updateSensorByID = function(sensorDetails,callback){
     }
     SensorType.findByIdAndUpdate(sensorDetails.ID,query,callback);
 }
+
+module.exports.getSensorType = function (callback) {
+    SensorType.find(callback);
+};
+

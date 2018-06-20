@@ -20,6 +20,7 @@ router.get("/", (req, res) => {
 
 router.get("/getAll", (req, res) => {
   SensorType.getAllSensorType((err, data) => {
+
     if (err)
       res.json({
         success: false,
@@ -154,5 +155,6 @@ router.post('/isdepricated', (req, res) => {
     });
   }
 });
+
 
 module.exports = router;

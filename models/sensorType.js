@@ -8,10 +8,16 @@ const SensorTypeSchema = mongoose.Schema({
         unique:true
     },
     latestversion: {
-        type: Number,
+        type: String,
+        default : "v0.0"
     },
     versions: [
         new mongoose.Schema({
+            version:{
+                type: String,
+                required: true,
+                default : "v0.0"
+            },
             fields: [new mongoose.Schema({
                 field: {
                     type: String,

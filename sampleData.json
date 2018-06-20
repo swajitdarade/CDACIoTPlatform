@@ -1,0 +1,47 @@
+{
+    "type" : "DHT11",
+    "latestversion" : "v0.0",
+	"versions" : [
+		{
+			"version" : "v0.0",
+			"date" : 1529496067078,
+			"deprecated" : false,
+			"fields" : [
+				{
+					"required" : false,
+					"field" : "temp",
+					"title" : "Temperature",
+					"type" : "integer",
+					"default" : "0"
+				},
+				{
+					"required" : false,
+					"field" : "humi",
+					"title" : "Humidity",
+					"type" : "integer",
+					"default" : "0"
+				}
+			],
+			"events" : [
+				{
+					"fields" : [
+						"temp"
+					],
+					"type" : "onData"
+				}
+			],
+			"actions" : [
+				{
+					"fields" : [
+						"humi"
+					],
+					"type" : "getData"
+				}
+			]
+		}
+	],
+	"__v" : 0
+}
+
+
+

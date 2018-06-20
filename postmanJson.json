@@ -1,0 +1,8 @@
+{
+	"type":"DHT22",
+    "fields":[{"field":"temp","title":"Temperature","type":"integer","default":0,"required":false},
+    		  {"field":"humi","title":"Humidity","type":"integer","default":0,"required":false}
+    		 ],
+    "actions":[{"type":"getData","fields":["humi"]}],
+    "events":[{"type":"onData","fields":["temp"]}]
+}

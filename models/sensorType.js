@@ -89,6 +89,22 @@ module.exports.getAllSensorType = function (callback) {
 module.exports.addSensorType = function (Sensortype, callback) {
     SensorType.create(Sensortype, callback);
 };
+
+module.exports.findSensorByID = function(sensorID,callback){
+    SensorType.findById(sensorID,callback)
+};
+module.exports.updateSensorByID = function(sensorDetails,callback){
+    let query = {
+        version:sensorDetails.version,
+        fields:sensorDetails.fields,
+        events:sensorDetails.events,
+        actions:sensorDetails.actions,
+        deprecated:sensorDetails.deprecated
+    }
+    SensorType.findByIdAndUpdate(sensorDetails.ID,query,callback);
+}
+
 module.exports.getSensorType = function (callback) {
     SensorType.find(callback);
 };
+

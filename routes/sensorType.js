@@ -194,4 +194,29 @@ router.post('/isdepricated', (req, res) => {
 });
 
 
+
+router.get("/getSensorType", (req, res) => {
+  SensorType.getAllSensorType((err, data) => {
+    if (err)
+      res.json({
+        success: false,
+        msg: err
+      });
+    else {
+      var rslt = {}
+      data.forEach(e => {
+        if (e.type in rslt) {
+          rslt[e.type].push(e.version)
+        }
+      });
+      res.json({
+        success: true,
+        msg: rslt
+      });
+    }
+  })
+});
+
+
+
 module.exports = router;
